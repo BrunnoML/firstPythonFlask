@@ -24,10 +24,15 @@ class Product(db.Model):
 
 # Sinalização da rota do API, modelo e operação
 
-@app.route('/api/products/add', methods=("POST"))
+@app.route('/api/products/add', methods=["POST"])
 def add_product():
-    data = request.json
-    return data
+    data = request.json # armazena os dados fornecidos pelo cliente
+    product = Product(name=data["name"], price=data["price"], description=data.get("description", "")) # cadastra produto, na descrição foi utilizado o método get e pedimos ao py para procurar a chave description, caso não encontre, usará o valor entre as aspas, neste caso, vazio
+
+    # adicionar o produto ao banco de dados e comitar para confirmar o registro do produto
+    db.session.add(product)
+    db.session.commit()
+    return "Produto cadastrado com sucesso!"
     
 
 # Definir uma rota raiz (página inicial) e a função que será executada ao requisitar
