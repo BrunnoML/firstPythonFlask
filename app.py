@@ -1,7 +1,7 @@
 # Importação
 # Pode apresentar problema na importação do flask, então procura a versão do python digitando pip --version e corrige o PATH para a versão informada no terminal
-
-from flask import Flask, request, jasonify
+# BUG001 Houve um problema na importação do jsonify, pois ao digitar no código ficou errado, ou seja, com a vogal "a" jasonify, substituir todas as linhas resolve o problema
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 # Instanciar o aplicativo do Flask
 
@@ -33,8 +33,8 @@ def add_product():
     # adicionar o produto ao banco de dados e comitar para confirmar o registro do produto
         db.session.add(product)
         db.session.commit()
-        return jasonify({"message": "Product added sucessfully"})
-    return jasonify({"message": "Invalid product data"}), 400 # Caso os dados sejam inválidos será apresentada essa mensagem e o número do erro precisa ser declarado, diferente se os dados forem válidos, em que o número 200 é apresentado sem precisar declarar
+        return jsonify({"message": "Product added sucessfully"})
+    return jsonify({"message": "Invalid product data"}), 400 # Caso os dados sejam inválidos será apresentada essa mensagem e o número do erro precisa ser declarado, diferente se os dados forem válidos, em que o número 200 é apresentado sem precisar declarar
 
 # Criar rota de delete utilizando <> para inserir o parâmetro, no caso inteiro e usar o método DELETE
 @app.route('/api/products/delete/<int:product_id>', methods=["DELETE"])
@@ -51,8 +51,8 @@ def delete_product(product_id):
         db.session.delete(product)
         db.session.commit()
         # Agora acrescentar as mensagens para as condições, se deletou ou se o produto não foi encontrado com o cod msg 404
-        return jasonify({"message": "Product deleted sucessfully"})
-    return jasonify({"message": "Product not found"}), 404
+        return jsonify({"message": "Product deleted sucessfully"})
+    return jsonify({"message": "Product not found"}), 404
 
 
 
