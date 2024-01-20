@@ -22,16 +22,13 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text, nullable=True)
 
-# Sinalização da rota do API, modelo e operação
 
-@app.route('/api/products/add', methods=["POST"])
+@app.route('/api/products/add', methods=["POST"]) # Sinalização da rota do API, modelo e operação
 def add_product():
+    data = request.json 
     if 'name' in data and 'price' in data: # Condição prévia para saber se os dados obrigatórios estão presentes para poder ser realizado o cadastro, se um deles não estiver presente o produto não será cadastrado
-        data = request.json # armazena os dados fornecidos pelo cliente
-        product = Product(name=data["name"], price=data["price"], description=data.get("description", "")) # cadastra produto, na descrição foi utilizado o método get e pedimos ao py para procurar a chave description, caso não encontre, usará o valor entre as aspas, neste caso, vazio
-
-    # adicionar o produto ao banco de dados e comitar para confirmar o registro do produto
-        db.session.add(product)
+        product = Product(name=data["name"], price=data["price"], description=data.get("description", "")) # Cadastra produto, na descrição foi utilizado o método get e pedimos ao py para procurar a chave description, caso não encontre, usará o valor entre as aspas, neste caso, vazio
+        db.session.add(product) # Adicionar o produto ao banco de dados e comitar para confirmar o registro do produto
         db.session.commit()
         return jsonify({"message": "Product added sucessfully"})
     return jsonify({"message": "Invalid product data"}), 400 # Caso os dados sejam inválidos será apresentada essa mensagem e o número do erro precisa ser declarado, diferente se os dados forem válidos, em que o número 200 é apresentado sem precisar declarar
