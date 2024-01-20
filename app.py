@@ -1,3 +1,5 @@
+# Version 01 - Working add delete and get
+
 # Importação
 # Pode apresentar problema na importação do flask, então procura a versão do python digitando pip --version e corrige o PATH para a versão informada no terminal
 # BUG001 Houve um problema na importação do jsonify, pois ao digitar no código ficou errado, ou seja, com a vogal "a" jasonify, substituir todas as linhas resolve o problema
