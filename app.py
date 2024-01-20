@@ -5,6 +5,7 @@
 # BUG001 Houve um problema na importação do jsonify, pois ao digitar no código ficou errado, ou seja, com a vogal "a" jasonify, substituir todas as linhas resolve o problema
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 
 # Instanciar o aplicativo do Flask
@@ -15,7 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecomemerce.dp'
 # Começar a utilizar o nosso banco de dados
 
 db = SQLAlchemy(app)
-
+CORS(app)
 
 # Modelagem
 # Produto (id, name, price, description)
