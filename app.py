@@ -35,7 +35,27 @@ def add_product():
         db.session.commit()
         return jasonify({"message": "Product added sucessfully"})
     return jasonify({"message": "Invalid product data"}), 400 # Caso os dados sejam inválidos será apresentada essa mensagem e o número do erro precisa ser declarado, diferente se os dados forem válidos, em que o número 200 é apresentado sem precisar declarar
-    
+
+# Criar rota de delete utilizando <> para inserir o parâmetro, no caso inteiro e usar o método DELETE
+@app.route('/api/products/delete/<int:product_id>', methods=["DELETE"])
+# Criar a função para deletar o produto
+def delete_product(product_id):
+    # Recuperar o produto da base de dados
+    # Verificar se o produto existe
+    # Se existe, apagar da base de dados
+    # Se não existe, retornar com o código 404 "not found"
+    # Usar a propriedade query e o método get
+    product = Product.query.get(product_id)
+    # Se utilizasse o if product_id != None: já seria suficiente, informando que se o produto escolhido fosse válido, ou seja, diferente de None poderia seguir, mas o py já entende colocando apenas if product:
+    if product: 
+        db.session.delete(product)
+        db.session.commit()
+        # Agora acrescentar as mensagens para as condições, se deletou ou se o produto não foi encontrado com o cod msg 404
+        return jasonify({"message": "Product deleted sucessfully"})
+    return jasonify({"message": "Product not found"}), 404
+
+
+
 
 # Definir uma rota raiz (página inicial) e a função que será executada ao requisitar
 
