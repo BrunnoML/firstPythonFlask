@@ -5,6 +5,8 @@
 # BUG001 Houve um problema na importação do jsonify, pois ao digitar no código ficou errado, ou seja, com a vogal "a" jasonify, substituir todas as linhas resolve o problema
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+
+
 # Instanciar o aplicativo do Flask
 
 app = Flask(__name__)
@@ -65,6 +67,24 @@ def get_product_details(product_id):
             })
     return jsonify({"message": "Product not found"}), 404
     
+# Atualizar o produto
+@app.route('/api/products/update/<int:product_id>', methods=["PUT"])
+def update_product(product_id):
+    product = Product.query.get(product_id)
+    if not product: 
+        return jsonify({"message": "Product not found"}), 404
+    
+    data = request.json
+    if 'name' in data:
+        product.name = data['name']
+
+    if 'price' in data:
+        product.price = data['price']
+
+    if 'description' in data:
+        product.description = data['description']
+    db.session.commit()
+    return jsonify({"message": "Product updated sucessfully"})
 
 # Definir uma rota raiz (página inicial) e a função que será executada ao requisitar
 
